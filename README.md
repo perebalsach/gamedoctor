@@ -4,7 +4,7 @@
 detects common configuration problems, explains them in plain language and
 produces a report you can attach to a bug report or paste into Discord.
 
-It **never changes anything on its own**. Running `gamedoctor` is always safe.
+It **never changes anything on the system**. Running `gamedoctor` is always safe.
 `gamedoctor fix` can apply the remedies it suggests, but only the ones you confirm
 one by one, and it shows you the exact command first.
 
@@ -84,32 +84,69 @@ uv run pytest
 
 ## Usage
 
+### `gamedoctor check` (default)
+
+`check` is the default command — you can omit it entirely.
+
 ```bash
-gamedoctor                  # full diagnostic, coloured output
-gamedoctor --report         # also save gamedoctor-report.txt (share this)
-gamedoctor --json           # machine-readable output on stdout
-gamedoctor --json -o env.json
-gamedoctor vulkan steam     # only some modules
-gamedoctor --list-modules
-gamedoctor --debug          # no redaction, internal tracebacks (review before sharing)
-gamedoctor check ...        # same as above; `check` is the default command
+gamedoctor [MODULES...] [OPTIONS]
+gamedoctor check [MODULES...] [OPTIONS]
 ```
 
-Exit codes: `0` on success, `2` for an unknown module or check id. `fix` exits
-`1` when something selected is still unresolved (skipped, failing or manual).
+| Argument / Option | Description |
+| --- | --- |
+| `MODULES...` | Run only these modules (space-separated). Default: all. See `--list-modules`. |
+| `--report` | Also save a plain-text report to `gamedoctor-report.txt`. |
+| `--json` | Print the report as JSON to stdout instead of text. |
+| `-o / --output FILE` | File to write when using `--report` or `--json`. |
+| `--list-modules` | Print available module names and exit. |
+| `--debug` | Disable privacy redaction (home path, user name); include internal tracebacks. Review before sharing. |
+| `--no-color` | Disable coloured output. |
+| `--version` | Show the version and exit. |
+| `-h / --help` | Show help and exit. |
 
-Reports are privacy-safe by default: your home directory becomes `$HOME`,
+```bash
+gamedoctor                        # full diagnostic, coloured output
+gamedoctor vulkan steam           # only the vulkan and steam modules
+gamedoctor --report               # also save gamedoctor-report.txt (share this)
+gamedoctor --json                 # machine-readable JSON on stdout
+gamedoctor --json -o report.json  # JSON written to a file
+gamedoctor --list-modules         # show available module names
+gamedoctor --debug                # no redaction, internal tracebacks
+gamedoctor --no-color             # plain text, no ANSI colours
+gamedoctor --version              # print version and exit
+```
+
+Exit codes: `0` on success, `2` for an unknown module or check id.
+
+Reports are privacy-safe by default: your home directory becomes `$HOME`;
 the hostname, user name and any identifiers are never collected.
 
-### Applying remedies
+### `gamedoctor fix`
 
 ```bash
-gamedoctor fix                        # walk through every issue, confirm each command
-gamedoctor fix vulkan.icd.32bit.AMD   # only the given check ids
-gamedoctor fix --all                  # also offer remedies for INFO notes
-gamedoctor fix --dry-run              # show what would be proposed, run nothing
-gamedoctor fix --yes                  # unattended; steps with alternatives are skipped
+gamedoctor fix [CHECK_IDS...] [OPTIONS]
 ```
+
+| Argument / Option | Description |
+| --- | --- |
+| `CHECK_IDS...` | Only walk through these check ids (default: every issue). |
+| `--all` | Also offer remedies for INFO notes, not only errors and warnings. |
+| `--dry-run` | Show what would be proposed and exit without running anything. |
+| `-y / --yes` | Run every remedy without asking. Steps with alternatives are skipped. |
+| `--debug` | Include internal tracebacks. |
+| `--no-color` | Disable coloured output. |
+| `-h / --help` | Show help and exit. |
+
+```bash
+gamedoctor fix                          # walk through every issue, confirm each command
+gamedoctor fix vulkan.icd.32bit.AMD     # only the given check id(s)
+gamedoctor fix --all                    # also offer remedies for INFO notes
+gamedoctor fix --dry-run                # show what would be proposed, run nothing
+gamedoctor fix --yes                    # unattended; steps with alternatives are skipped
+```
+
+`fix` exits `1` when something selected is still unresolved (skipped, failing or manual).
 
 For each issue `fix` shows the check, the exact command and why, then asks
 `y/N/s(kip)/q(uit)`. Commands run in the foreground with your normal
