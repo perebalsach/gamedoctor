@@ -8,37 +8,7 @@ It **never changes anything on the system**. Running `gamedoctor` is always safe
 `gamedoctor fix` can apply the remedies it suggests, but only the ones you confirm
 one by one, and it shows you the exact command first.
 
-```text
-$ gamedoctor
-
-Linux Game Doctor 0.1.0
-
-System
-  OS                CachyOS
-  Kernel            6.17.2-2-cachyos
-  Desktop           KDE Plasma 6.4.0
-  Session           Wayland
-  ...
-
-Potential issues
-
-  ✗ 32-bit Vulkan driver for your AMD GPU not found
-
-    Your 64-bit Vulkan driver (RADV) is installed, but no 32-bit build of
-    it was found. Many Windows games run through Proton contain 32-bit
-    components ...
-
-    Try:
-      sudo pacman -S lib32-vulkan-radeon
-
-Overall status
-
-   21 checks passed
-    2 notes
-    0 warnings
-    1 errors
-    0 critical
-```
+![../docs/report.png](image.png)
 
 When you are ready to act on an issue, `gamedoctor fix` walks you through it:
 
