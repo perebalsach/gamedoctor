@@ -66,12 +66,33 @@ Summary
 
 Requires Python 3.12+ on Linux.
 
-```bash
-# with uv
-uv tool install .            # or: uvx --from . gamedoctor
+**Recommended — with [uv](https://docs.astral.sh/uv/getting-started/installation/):**
 
-# or with pip
+```bash
+uv tool install .
+```
+
+This installs `gamedoctor` into an isolated environment and puts it on your
+`PATH`. After that you can run `gamedoctor` from anywhere, no virtual
+environment or `uv run` needed.
+
+To run it once without installing:
+
+```bash
+uvx --from . gamedoctor
+```
+
+**Alternative — with pip:**
+
+```bash
 pip install --user .
+```
+
+Make sure `~/.local/bin` is on your `PATH` (it usually is on modern distros).
+If `gamedoctor` is not found after install, add this to your shell profile:
+
+```bash
+export PATH="$HOME/.local/bin:$PATH"
 ```
 
 ## Usage
