@@ -171,7 +171,7 @@ PRIME diagnostics, deeper Flatpak Steam support.
 
 ## Contributing
 
-See [docs/CONTRIBUTING.md](docs/CONTRIBUTING.md) for dev setup, architecture notes and
+See [CONTRIBUTING.md](docs/CONTRIBUTING.md) for dev setup, architecture notes and
 instructions for adding new checks or distribution support.
 
 ## License
