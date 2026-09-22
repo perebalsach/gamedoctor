@@ -74,14 +74,6 @@ uv tool install .            # or: uvx --from . gamedoctor
 pip install --user .
 ```
 
-For development:
-
-```bash
-uv sync
-uv run gamedoctor
-uv run pytest
-```
-
 ## Usage
 
 ### `gamedoctor check` (default)
@@ -181,42 +173,15 @@ informational, so nothing executes.
 
 Missing *optional* tools (MangoHud, Gamescope...) are shown as facts, not problems.
 
-## Adding a check
-
-Each module lives in `gamedoctor/diagnostics/` and returns facts and checks:
-
-```python
-r.fact("MangoHud", "installed 0.8.1", Severity.PASS)
-r.check(
-    "vulkan.icd.32bit.AMD",
-    Severity.ERROR,
-    "32-bit Vulkan driver for your AMD GPU not found",
-    explanation="Why this matters ...",
-    steps=ctx.solution("vulkan.icd.32bit.AMD"),   # distro-specific, from platform/solutions.py
-)
-```
-
-Diagnostics stay distribution-independent; `gamedoctor/platform/solutions.py`
-maps an issue key to a list of `Step`s per distribution family. The same steps
-are printed under "Try:" in the report and executed by `gamedoctor fix`, so
-keep commands in steps rather than in the explanation text:
-
-```python
-Step("sudo pacman -S lib32-vulkan-radeon")                       # runnable
-Step("sudo pacman -S nvidia-utils", "or nvidia-open + nvidia-utils")  # runnable, with a hint
-Step(note="Enable the [multilib] repository in /etc/pacman.conf")  # manual, shown as a comment
-Step(options=("sudo pacman -S nvidia-open", "sudo pacman -S nvidia"),
-     note="nvidia-open for Turing or newer")                       # user picks one
-```
-
-Rules for steps: a runnable command must work as-is through `sh -c` (no
-`<placeholders>`; describe those in a `note` instead), and commands that need
-administrator rights start with `sudo` so `fix` can say so before asking.
-
 ## Roadmap
 
 See `PROJECT_DESCRIPTION.md`. Next up (0.2): Markdown reports, hybrid-GPU and
 PRIME diagnostics, deeper Flatpak Steam support.
+
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for dev setup, architecture notes and
+instructions for adding new checks or distribution support.
 
 ## License
 
