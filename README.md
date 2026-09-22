@@ -8,7 +8,7 @@ It **never changes anything on the system**. Running `gamedoctor` is always safe
 `gamedoctor fix` can apply the remedies it suggests, but only the ones you confirm
 one by one, and it shows you the exact command first.
 
-![../docs/report.png](image.png)
+![Sample gamedoctor report](docs/report.png)
 
 When you are ready to act on an issue, `gamedoctor fix` walks you through it:
 
@@ -171,7 +171,7 @@ PRIME diagnostics, deeper Flatpak Steam support.
 
 ## Contributing
 
-See [CONTRIBUTING.md](CONTRIBUTING.md) for dev setup, architecture notes and
+See [docs/CONTRIBUTING.md](docs/CONTRIBUTING.md) for dev setup, architecture notes and
 instructions for adding new checks or distribution support.
 
 ## License
